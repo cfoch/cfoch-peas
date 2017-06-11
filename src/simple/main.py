@@ -23,6 +23,8 @@ gi.require_version('Peas', '1.0')
 from gi.repository import Peas
 from gi.repository import GObject
 
+from extensions import TextExtension
+
 
 class API(GObject.GObject):
     def __init__(self, app):
@@ -68,6 +70,11 @@ class Application(GObject.Object):
     def __init__(self):
         GObject.Object.__init__(self)
         self.manager = PluginManager(self)
+        print("FIXME!!!")
+        self.text_extension_set =\
+            Peas.ExtensionSet.new_with_properties(self.manager.engine,
+                                                  TextExtension, [], [])
+        print("FIXME ^!!!")
 
     def run(self):
         self.emit("start")
@@ -101,11 +108,17 @@ class Application(GObject.Object):
         while True:
             print(">: ", end='')
             keyboard_input = input()
+            self.text_extension_set.foreach(self.__process_input_foreach,
+                                            keyboard_input)
             if keyboard_input == "q":
                 self.emit("finish")
                 break;
             else:
                 self.emit("process-input", keyboard_input)
+
+    def __process_input_foreach(self, unused_extension_set, unused_plugin_info,
+                            extension, text):
+        extension.do_process(text)
 
 
 if __name__ == "__main__":

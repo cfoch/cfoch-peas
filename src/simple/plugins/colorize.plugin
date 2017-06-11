@@ -1,0 +1,9 @@
+[Plugin]
+Module=colorize
+Name=Colorize
+Loader=Python3
+Description=Adds color to your text
+Authors=Fabian Orccon <cfoch.fabian@gmail.com>
+Copyright=Copyright © 2017 Fabian Orccon
+Website=http://teetux.com
+Help=http://github.com/cfoch/cfoch-peas/README.md
